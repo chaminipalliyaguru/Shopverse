@@ -57,54 +57,6 @@ To run one file or one test: `npx playwright test tests/ui/cart.spec.ts` or `npx
 | `RESET_DB` | `true` | Reset and re-seed the database before each run |
 | `START_APP` | `false` | `true` makes Playwright run `npm run dev` in the parent folder if the app isn't up |
 
-## Project layout
-
-```
-e2e/
-├─ playwright.config.ts      projects: setup → api, chromium (firefox/webkit on demand)
-├─ src/
-│  ├─ config/env.ts          env vars + storage-state paths
-│  ├─ data/testData.ts       mirror of server seed data: users, products, coupons, cards, address
-│  ├─ fixtures/index.ts      custom fixtures (see below)
-│  ├─ pages/                 Page Object Model (Navbar, Home, Login, Register, Products, ProductDetail,
-│  │                         Cart, Checkout, Orders/OrderDetail, Profile, Admin)
-│  └─ utils/
-│     ├─ ApiClient.ts        typed REST client over Playwright's APIRequestContext
-│     ├─ db.ts               read-only MongoDB helper
-│     ├─ pricing.ts          separate copy of the pricing rules, used to check the app's numbers
-│     └─ random.ts           unique ids / emails
-└─ tests/
-   ├─ setup/global.setup.ts  health check, DB reset, admin/customer storage states
-   ├─ api/                   auth, products & reviews, cart & coupons, orders & payments, admin
-   └─ ui/                    navigation, auth & guards, catalogue, product detail, cart, checkout,
-                             orders, reviews, profile, admin
-```
-
-## Fixtures
-
-```ts
-import { test, expect } from '../../src/fixtures';
-
-test('example', async ({ signedInUser, cartPage, tempProduct, db }) => {
-  const p = await tempProduct({ price: 20, stock: 3 });   // throw-away product, deleted afterwards
-  await signedInUser.api.addToCart(p._id, 2);             // set up state through the API (fast)
-  await cartPage.goto();                                  // check behaviour through the UI
-  await expect(cartPage.quantityOf(p.name)).toHaveText('2');
-  expect(await db.productStock(p.slug)).toBe(3);          // check the database directly
-});
-```
-
-| Fixture | Description |
-|---|---|
-| `api` / `adminApi` | `ApiClient`, anonymous or logged in as the seeded admin |
-| `freshUser` | New customer registered via the API, deleted after the test |
-| `signedInUser` | `freshUser`, already logged in on `page` (token in localStorage, no login UI) |
-| `createUser()` | Factory for more users in the same test (owner and stranger, concurrent buyers…) |
-| `tempProduct()` | Product created through the admin API in category `QA Fixtures`, deleted after the test |
-| `db` | `ShopDb` for read-only MongoDB checks |
-| `homePage`, `cartPage`, `adminPage`, … | Page objects |
-
-Admin UI tests use the saved admin session: `test.use({ storageState: STORAGE_STATE.admin })`.
 
 ## How tests stay independent when run in parallel
 
