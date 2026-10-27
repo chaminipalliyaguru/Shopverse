@@ -4,7 +4,7 @@ End-to-end **UI** tests and **API** tests for ShopVerse, written in TypeScript w
 [Playwright Test](https://playwright.dev). It also checks MongoDB directly for things the UI can't show
 (password hashing, stock levels, saved orders).
 
-**238 tests** (4 setup, 124 API, 110 UI) over auth, catalogue, product detail, cart, coupons,
+**Tests** over auth, catalogue, product detail, cart, coupons,
 shipping/tax maths, checkout and payments, orders and cancellation, reviews, profile, admin, and access control.
 
 ## Requirements
