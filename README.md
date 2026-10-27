@@ -15,15 +15,6 @@ shipping/tax maths, checkout and payments, orders and cancellation, reviews, pro
 - MongoDB at `mongodb://127.0.0.1:27017/shopverse`
 - `ENABLE_TEST_ROUTES=true` in `server/.env` (needed for `/api/test/reset` and cleanup)
 
-## Setup (Windows CMD)
-
-```cmd
-cd D:\Projects\shopverse\e2e
-npm install
-npx playwright install
-copy .env.example .env
-```
-
 ## Run
 
 Start the app in another terminal (`cd D:\Projects\shopverse` then `npm run dev`), then:
