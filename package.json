@@ -1,0 +1,27 @@
+{
+  "name": "shopverse-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright (TypeScript) end-to-end and API test suite for ShopVerse",
+  "scripts": {
+    "test": "playwright test --project=api --project=chromium",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=chromium",
+    "test:smoke": "playwright test --project=api --project=chromium --grep @smoke",
+    "test:headed": "playwright test --project=chromium --headed --workers=1",
+    "test:debug": "playwright test --project=chromium --debug",
+    "test:ui-mode": "playwright test --ui",
+    "test:cross-browser": "playwright test --project=chromium --project=firefox --project=webkit",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen http://localhost:5173",
+    "typecheck": "tsc --noEmit",
+    "install:browsers": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^20.19.0",
+    "dotenv": "^16.6.1",
+    "mongodb": "^6.21.0",
+    "typescript": "^5.9.3"
+  }
+}
